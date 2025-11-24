@@ -44,4 +44,4 @@ import 'preline'
  * 05 - Run npm run dev for development and test components from Preline's docs.
 
 
- https://preline.co/docs/frameworks-laravel.html
+ Documentaion: https://preline.co/docs/frameworks-laravel.html
