@@ -2,9 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('articles.index');
-});
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\PublicArticleController;
 
-Route::resource('articles', \App\Http\Controllers\ArticleController::class);
+// Public routes
+Route::get('/', [PublicArticleController::class, 'index'])->name('public.articles.index');
+Route::get('/articles/{article}', [PublicArticleController::class, 'show'])->name('public.articles.show');
+
+// Admin routes
+Route::prefix('admin')->group(function () {
+    Route::resource('articles', ArticleController::class);
+});
 

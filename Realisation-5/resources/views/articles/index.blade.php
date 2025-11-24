@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
     <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -23,7 +23,7 @@
                             <div>
                                 <div class="inline-flex gap-x-2">
                                     <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                                        href="{{ route('articles.create') }}">
+                                        href="{{ route('admin.articles.create') }}">
                                         <svg class="flex-shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="16"
                                             height="16" viewBox="0 0 16 16" fill="none">
                                             <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor"
@@ -39,7 +39,7 @@
                         <!-- Filter & Search -->
                         <div
                             class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-gray-700">
-                            <form action="{{ route('articles.index') }}" method="GET"
+                            <form action="{{ route('admin.articles.index') }}" method="GET"
                                 class="flex flex-col md:flex-row gap-3 w-full">
                                 <div class="relative max-w-xs w-full">
                                     <label for="hs-table-search" class="sr-only">Search</label>
@@ -135,6 +135,7 @@
                                                 <div class="flex items-center gap-x-3">
                                                     <span
                                                         class="block text-sm font-semibold text-gray-800 dark:text-gray-200">{{ $article->title }}</span>
+                                                    <span class="block text-sm text-gray-500 dark:text-gray-400">{{ Str::limit(strip_tags($article->content), 50) }}</span>
                                                 </div>
                                             </div>
                                         </td>
@@ -178,14 +179,14 @@
                                             <div class="px-6 py-3">
                                                 <div class="flex justify-end gap-x-3">
                                                     <a class="text-sm text-blue-600 decoration-2 hover:underline font-medium dark:text-blue-500"
-                                                        href="{{ route('articles.edit', $article->article_id) }}">
+                                                        href="{{ route('admin.articles.edit', $article->article_id) }}">
                                                         Edit
                                                     </a>
                                                     <a class="text-sm text-gray-600 decoration-2 hover:underline font-medium dark:text-gray-500"
-                                                        href="{{ route('articles.show', $article->article_id) }}">
+                                                        href="{{ route('admin.articles.show', $article->article_id) }}">
                                                         View
                                                     </a>
-                                                    <form action="{{ route('articles.destroy', $article->article_id) }}"
+                                                    <form action="{{ route('admin.articles.destroy', $article->article_id) }}"
                                                         method="POST" onsubmit="return confirm('Are you sure?');"
                                                         class="inline">
                                                         @csrf

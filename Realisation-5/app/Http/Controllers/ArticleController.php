@@ -51,8 +51,8 @@ class ArticleController extends Controller
         ]);
 
         $this->articleService->createArticle($validated);
-
-        return redirect()->route('articles.index')->with('success', 'Article created successfully.');
+ 
+        return redirect()->route('admin.articles.index')->with('success', 'Article created successfully.');
     }
 
     /**
@@ -86,8 +86,8 @@ class ArticleController extends Controller
         ]);
 
         $this->articleService->updateArticle($article, $validated);
-
-        return redirect()->route('articles.index')->with('success', 'Article updated successfully.');
+ 
+        return redirect()->route('admin.articles.index')->with('success', 'Article updated successfully.');
     }
 
     /**
@@ -96,7 +96,7 @@ class ArticleController extends Controller
     public function destroy(Article $article)
     {
         $this->articleService->deleteArticle($article);
-
-        return redirect()->route('articles.index')->with('success', 'Article deleted successfully.');
+ 
+        return redirect()->route('admin.articles.index')->with('success', 'Article deleted successfully.');
     }
 }
