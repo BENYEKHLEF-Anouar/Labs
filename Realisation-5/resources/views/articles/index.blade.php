@@ -19,7 +19,7 @@
                 <td class="py-2 px-4 border-b">{{ $article->title }}</td>
                 <td class="py-2 px-4 border-b">{{ $article->author->name ?? 'N/A' }}</td>
                 <td class="py-2 px-4 border-b">
-                    <a href="{{ route('article.edit', $article->id) }}" class="text-blue-600 hover:underline">Edit</a>
+                    <a href="{{ route('articles.edit', $article->id) }}" class="text-blue-600 hover:underline">Edit</a>
                 </td>
             </tr>
             @endforeach
