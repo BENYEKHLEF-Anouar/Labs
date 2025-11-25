@@ -10,6 +10,12 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+/* temporary test */
+body {
+    background: #f7f7f7;
+}
+
+
 /* Smooth scroll behavior */
 html {
     scroll-behavior: smooth;
