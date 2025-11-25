@@ -47,7 +47,7 @@ class ArticleController extends Controller
             'content' => 'required|string',
             'categories' => 'array',
             'categories.*' => 'exists:categories,category_id',
-            'status' => 'in:draft,published',
+            'status' => 'nullable|in:draft,published',
         ]);
 
         $this->articleService->createArticle($validated);
@@ -82,7 +82,7 @@ class ArticleController extends Controller
             'content' => 'required|string',
             'categories' => 'array',
             'categories.*' => 'exists:categories,category_id',
-            'status' => 'in:draft,published',
+            'status' => 'nullable|in:draft,published',
         ]);
 
         $this->articleService->updateArticle($article, $validated);

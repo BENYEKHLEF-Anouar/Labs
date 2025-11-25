@@ -73,9 +73,9 @@
                                         class="py-2 px-3 pe-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
                                         onchange="this.form.submit()">
                                         <option value="">All Statuses</option>
-                                        <option value="Brouillon" {{ request('status') == 'Brouillon' ? 'selected' : '' }}>
-                                            Brouillon</option>
-                                        <option value="Publié" {{ request('status') == 'Publié' ? 'selected' : '' }}>Publié
+                                        <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>
+                                            Draft</option>
+                                        <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Published
                                         </option>
                                     </select>
                                 </div>
@@ -147,7 +147,7 @@
                                         </td>
                                         <td class="size-px whitespace-nowrap">
                                             <div class="px-6 py-3">
-                                                @if($article->status == 'Publié')
+                                                @if($article->status == 'published')
                                                     <span
                                                         class="py-1 px-1.5 inline-flex items-center gap-x-1 text-xs font-medium bg-teal-100 text-teal-800 rounded-full dark:bg-teal-500/10 dark:text-teal-500">
                                                         <svg class="size-2.5" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -155,12 +155,12 @@
                                                             <path
                                                                 d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
                                                         </svg>
-                                                        Publié
+                                                        Published
                                                     </span>
                                                 @else
                                                     <span
                                                         class="py-1 px-1.5 inline-flex items-center gap-x-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full dark:bg-gray-500/10 dark:text-gray-500">
-                                                        Brouillon
+                                                        Draft
                                                     </span>
                                                 @endif
                                             </div>

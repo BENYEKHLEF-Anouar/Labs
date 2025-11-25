@@ -23,6 +23,11 @@ class Article extends Model
         'is_moderated'
     ];
 
+    protected $casts = [
+        'published_at' => 'datetime',
+        'is_moderated' => 'boolean',
+    ];
+
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');

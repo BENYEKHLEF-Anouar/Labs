@@ -9,6 +9,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            RoleSeeder::class, // Ensure roles are seeded first
             AdminUserSeeder::class,
             CategorySeeder::class,
         ]);

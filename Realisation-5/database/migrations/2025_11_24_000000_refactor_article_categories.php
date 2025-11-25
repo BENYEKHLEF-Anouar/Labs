@@ -12,8 +12,17 @@ return new class extends Migration {
     {
         // Drop the foreign key and column from articles table
         Schema::table('articles', function (Blueprint $table) {
-            $table->dropForeign(['category_id']);
-            $table->dropColumn('category_id');
+            if (Schema::hasColumn('articles', 'category_id')) {
+                // Check if the foreign key exists before dropping
+                $foreignKeys = Schema::getConnection()->getDoctrineSchemaManager()->listTableForeignKeys('articles');
+                foreach ($foreignKeys as $foreignKey) {
+                    if ($foreignKey->getColumns() == ['category_id']) {
+                        $table->dropForeign($foreignKey->getName());
+                        break;
+                    }
+                }
+                $table->dropColumn('category_id');
+            }
         });
 
         // Create the pivot table
