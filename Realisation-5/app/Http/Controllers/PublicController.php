@@ -3,13 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
 {
-    public function home()
+    public function home(Request $request)
     {
+        $categories = Category::all();
+        
+        // Base query for articles
+        $query = Article::with(['author', 'category'])->where('status', 'Publié');
+        
+        // Search filter
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('content', 'like', "%{$search}%");
+            });
+        }
+        
+        // Category filter
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+        
+        // Check if filters are applied
+        $hasFilters = $request->filled('search') || $request->filled('category');
+        
+        if ($hasFilters) {
+            // Show filtered results
+            $filteredArticles = $query->orderBy('published_at', 'desc')->paginate(9);
+            return view('public.home', compact('categories', 'filteredArticles', 'hasFilters'));
+        }
+        
+        // Default: show recent and popular
         $recentArticles = Article::with(['author', 'category'])
             ->where('status', 'Publié')
             ->orderBy('published_at', 'desc')
@@ -22,7 +52,7 @@ class PublicController extends Controller
             ->take(6)
             ->get();
 
-        return view('public.home', compact('recentArticles', 'popularArticles'));
+        return view('public.home', compact('recentArticles', 'popularArticles', 'categories', 'hasFilters'));
     }
 
     public function detail($id)
