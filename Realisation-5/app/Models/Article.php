@@ -15,6 +15,10 @@ class Article extends Model
         'status','author_id','category_id','published_at','is_moderated'
     ];
 
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
+
     public function author() {
         return $this->belongsTo(User::class, 'author_id');
     }
@@ -24,7 +28,7 @@ class Article extends Model
     }
 
     public function comments() {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class, 'article_id', 'article_id');
     }
 
     public function favorites() {

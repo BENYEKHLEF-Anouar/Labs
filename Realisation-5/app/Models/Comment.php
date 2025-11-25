@@ -13,10 +13,10 @@ class Comment extends Model
     protected $fillable = ['article_id','user_id','guest_name','content','is_approved'];
 
     public function article() {
-        return $this->belongsTo(Article::class);
+        return $this->belongsTo(Article::class, 'article_id', 'article_id');
     }
 
     public function user() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 }

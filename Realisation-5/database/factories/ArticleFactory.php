@@ -19,7 +19,7 @@ class ArticleFactory extends Factory
             'title' => $title,
             'slug' => Str::slug($title) . '-' . Str::random(5),
             'content' => $this->faker->paragraphs(5, true),
-            'status' => $this->faker->randomElement(['Draft','Published','Archived']),
+            'status' => $this->faker->randomElement(['Brouillon','Publié']),
             'author_id' => User::inRandomOrder()->first()->user_id,
             'category_id' => \App\Models\Category::inRandomOrder()->first()->category_id,
             'views' => $this->faker->numberBetween(0,1000),
