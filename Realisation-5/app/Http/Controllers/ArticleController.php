@@ -13,7 +13,7 @@ class ArticleController extends Controller
     {
         $articles = Article::with('author', 'category')->get();
         $categories = \App\Models\Category::all();
-        return view('article.index', compact('articles', 'categories'));
+        return view('articles.index', compact('articles', 'categories'));
     }
 
     // Show edit form for an article
@@ -21,7 +21,7 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
         $categories = \App\Models\Category::all();
-        return view('article.edit', compact('article', 'categories'));
+        return view('articles.edit', compact('article', 'categories'));
     }
     // Update an article
     public function update(Request $request, $id)
@@ -45,7 +45,11 @@ class ArticleController extends Controller
         $article = Article::findOrFail($id);
         
         // Delete related records first due to foreign key constraints
-        $article->tags()->detach(); 
+        $article->comments()->delete(); // Delete all comments
+        $article->tags()->detach(); // Detach all tags
+        
+        // Delete favorites (delete from favorites table)
+        \DB::table('favorites')->where('article_id', $article->article_id)->delete();
         
         $article->delete();
         
