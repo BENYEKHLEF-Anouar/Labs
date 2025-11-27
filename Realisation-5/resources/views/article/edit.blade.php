@@ -191,18 +191,20 @@
           <div>
             <h1 class="text-2xl font-semibold text-gray-800">Ajouter un article</h1>
           </div>
-          <a href="dashboard_editeur_articles.html" class="text-blue-600 hover:text-blue-800 font-medium">
+          <a href="{{ route('article.index') }}" class="text-blue-600 hover:text-blue-800 font-medium">
             <i class="fas fa-arrow-left mr-1"></i>Retour
           </a>
         </div>
 
         <!-- Formulaire -->
         <div class="card p-6">
-          <form>
+          <form method="POST" action="{{ route('article.update', $article->article_id) }}">
+            @csrf
+            @method('PUT')
             <!-- Titre de l'article -->
             <div class="form-group">
-              <label for="titre" class="form-label">Titre</label>
-              <input type="text" id="titre" class="form-control" placeholder="Entrez le titre de l'article">
+              <label for="title" class="form-label">Titre</label>
+              <input type="text" id="title" name="title" class="form-control" value="{{ old('title', $article->title) }}" placeholder="Entrez le titre de l'article" required>
             </div>
 
             <!-- Slug -->
@@ -212,8 +214,9 @@
                 <span class="inline-flex items-center px-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l text-gray-600">
                   https://example.com/
                 </span>
-                <input type="text" id="slug" class="form-control rounded-l-none" placeholder="titre-de-l-article">
+                <input type="text" id="slug" name="slug" class="form-control rounded-l-none" value="{{ old('slug', $article->slug) }}" placeholder="titre-de-l-article" required>
               </div>
+              <small class="text-gray-500 mt-1 block">Auto-généré depuis le titre</small>
             </div>
 
             <!-- Image de couverture -->
@@ -237,155 +240,130 @@
             </div>
 
        <div class="form-group mb-6">
-  <!-- Tiptap -->
-  <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
-    <div id="hs-editor-tiptap">
+              <label for="content" class="form-label">Contenu</label>
+              <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                <div id="hs-editor-tiptap">
 
-      <!-- Toolbar -->
-      <div class="sticky top-0 bg-white flex align-middle gap-x-0.5 border-b border-gray-200 p-2 text-black">
-        <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-bold="">
-          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 12a4 4 0 0 0 0-8H6v8"></path>
-            <path d="M15 20a4 4 0 0 0 0-8H6v8Z"></path>
-          </svg>
-        </button>
+                  <!-- Toolbar -->
+                  <div class="sticky top-0 bg-white flex align-middle gap-x-0.5 border-b border-gray-200 p-2 text-black">
+                    <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-bold="">
+                      <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 12a4 4 0 0 0 0-8H6v8"></path>
+                        <path d="M15 20a4 4 0 0 0 0-8H6v8Z"></path>
+                      </svg>
+                    </button>
 
-        <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-italic="">
-          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="19" x2="10" y1="4" y2="4"></line>
-            <line x1="14" x2="5" y1="20" y2="20"></line>
-            <line x1="15" x2="9" y1="4" y2="20"></line>
-          </svg>
-        </button>
+                    <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-italic="">
+                      <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" x2="10" y1="4" y2="4"></line>
+                        <line x1="14" x2="5" y1="20" y2="20"></line>
+                        <line x1="15" x2="9" y1="4" y2="20"></line>
+                      </svg>
+                    </button>
 
-        <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-underline="">
-          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 4v6a6 6 0 0 0 12 0V4"></path>
-            <line x1="4" x2="20" y1="20" y2="20"></line>
-          </svg>
-        </button>
+                    <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-underline="">
+                      <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 4v6a6 6 0 0 0 12 0V4"></path>
+                        <line x1="4" x2="20" y1="20" y2="20"></line>
+                      </svg>
+                    </button>
 
-        <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-strike="">
-          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M16 4H9a3 3 0 0 0-2.83 4"></path>
-            <path d="M14 12a4 4 0 0 1 0 8H6"></path>
-            <line x1="4" x2="20" y1="12" y2="12"></line>
-          </svg>
-        </button>
+                    <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-strike="">
+                      <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 4H9a3 3 0 0 0-2.83 4"></path>
+                        <path d="M14 12a4 4 0 0 1 0 8H6"></path>
+                        <line x1="4" x2="20" y1="12" y2="12"></line>
+                      </svg>
+                    </button>
 
-        <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-link="">
-          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-          </svg>
-        </button>
+                    <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-link="">
+                      <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                      </svg>
+                    </button>
 
-        <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-ol="">
-          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="10" x2="21" y1="6" y2="6"></line>
-            <line x1="10" x2="21" y1="12" y2="12"></line>
-            <line x1="10" x2="21" y1="18" y2="18"></line>
-            <path d="M4 6h1v4"></path>
-            <path d="M4 10h2"></path>
-            <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path>
-          </svg>
-        </button>
+                    <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-ol="">
+                      <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="10" x2="21" y1="6" y2="6"></line>
+                        <line x1="10" x2="21" y1="12" y2="12"></line>
+                        <line x1="10" x2="21" y1="18" y2="18"></line>
+                        <path d="M4 6h1v4"></path>
+                        <path d="M4 10h2"></path>
+                        <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path>
+                      </svg>
+                    </button>
 
-        <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-ul="">
-          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="8" x2="21" y1="6" y2="6"></line>
-            <line x1="8" x2="21" y1="12" y2="12"></line>
-            <line x1="8" x2="21" y1="18" y2="18"></line>
-            <line x1="3" x2="3.01" y1="6" y2="6"></line>
-            <line x1="3" x2="3.01" y1="12" y2="12"></line>
-            <line x1="3" x2="3.01" y1="18" y2="18"></line>
-          </svg>
-        </button>
+                    <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-ul="">
+                      <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="8" x2="21" y1="6" y2="6"></line>
+                        <line x1="8" x2="21" y1="12" y2="12"></line>
+                        <line x1="8" x2="21" y1="18" y2="18"></line>
+                        <line x1="3" x2="3.01" y1="6" y2="6"></line>
+                        <line x1="3" x2="3.01" y1="12" y2="12"></line>
+                        <line x1="3" x2="3.01" y1="18" y2="18"></line>
+                      </svg>
+                    </button>
 
-        <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-blockquote="">
-          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 6H3"></path>
-            <path d="M21 12H8"></path>
-            <path d="M21 18H8"></path>
-            <path d="M3 12v6"></path>
-          </svg>
-        </button>
+                    <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-blockquote="">
+                      <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 6H3"></path>
+                        <path d="M21 12H8"></path>
+                        <path d="M21 18H8"></path>
+                        <path d="M3 12v6"></path>
+                      </svg>
+                    </button>
 
-        <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-code="">
-          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m18 16 4-4-4-4"></path>
-            <path d="m6 8-4 4 4 4"></path>
-            <path d="m14.5 4-5 16"></path>
-          </svg>
-        </button>
-      </div>
+                    <button class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" type="button" data-hs-editor-code="">
+                      <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m18 16 4-4-4-4"></path>
+                        <path d="m6 8-4 4 4 4"></path>
+                        <path d="m14.5 4-5 16"></path>
+                      </svg>
+                    </button>
+                  </div>
 
-      <!-- Editor Field -->
-      <div class="h-40 overflow-auto text-black text-gary-400" data-hs-editor-field="" style="color: rgb(142, 139, 139);"></div>
+                  <!-- Editor Field -->
+                  <div id="hs-editor-field" class="h-40 overflow-auto text-black" data-hs-editor-field="" style="color: rgb(0, 0, 0); outline: none;"></div>
+                  <input type="hidden" id="content" name="content" value="{{ old('content', $article->content) }}">
 
-
-    </div>
-  </div>
-  <!-- End Tiptap -->
-</div>
-
-
-            <!-- Date de publication -->
-            <div class="form-group mb-6">
-              <label for="date" class="form-label">Date de publication</label>
-              <input type="date" id="date" class="form-control">
+                </div>
+              </div>
             </div>
-
-            <div class="form-group">
-              <label for="titre" class="form-label">Tags</label>
-              <input type="text" id="titre" class="form-control" placeholder="Entrez les tags de l'article">
+            <div class="form-group mb-6">
+              <label for="published_at" class="form-label">Date de publication</label>
+              <input type="date" id="published_at" name="published_at" class="form-control" value="{{ old('published_at', isset($article->published_at) ? $article->published_at->format('Y-m-d') : '') }}">
             </div>
 
             <!-- Ligne Catégories et Statut -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <!-- Catégories -->
               <div class="form-group">
-                <label class="form-label">Catégories</label>
-                <div class="checkbox-group">
-                  <label class="checkbox-item">
-                    <input type="checkbox" name="categories" value="1" class="rounded border-gray-300 text-blue-600">
-                    <span>Voyage</span>
-                  </label>
-                  <label class="checkbox-item">
-                    <input type="checkbox" name="categories" value="2" class="rounded border-gray-300 text-blue-600">
-                    <span>Technologie</span>
-                  </label>
-                  <label class="checkbox-item">
-                    <input type="checkbox" name="categories" value="3" class="rounded border-gray-300 text-blue-600">
-                    <span>Cuisine</span>
-                  </label>
-                </div>
+                <label for="category_id" class="form-label">Catégorie</label>
+                <select id="category_id" name="category_id" class="form-control">
+                  <option value="">Sélectionner une catégorie</option>
+                  @foreach($categories as $category)
+                    <option value="{{ $category->category_id }}" {{ old('category_id', $article->category_id) == $category->category_id ? 'selected' : '' }}>
+                      {{ $category->name }}
+                    </option>
+                  @endforeach
+                </select>
               </div>
 
               <!-- Statut -->
               <div class="form-group">
-                <label class="form-label">Statut</label>
-                <div class="radio-group">
-                  <label class="radio-item">
-                    <input type="radio" name="statut" value="brouillon" class="text-blue-600" checked>
-                    <span>Brouillon</span>
-                  </label>
-                  <label class="radio-item">
-                    <input type="radio" name="statut" value="edition" class="text-blue-600">
-                    <span>En édition</span>
-                  </label>
-                  <label class="radio-item">
-                    <input type="radio" name="statut" value="a_valider" class="text-blue-600">
-                    <span>À valider</span>
-                  </label>
-                </div>
+                <label for="status" class="form-label">Statut</label>
+                <select id="status" name="status" class="form-control">
+                  <option value="Brouillon" {{ old('status', $article->status) === 'Brouillon' ? 'selected' : '' }}>Brouillon</option>
+                  <option value="Publié" {{ old('status', $article->status) === 'Publié' ? 'selected' : '' }}>Publié</option>
+                </select>
               </div>
             </div>
 
             <!-- Bouton de soumission -->
             <div class="mt-8 pt-4 border-t border-gray-200">
-              <button type="submit" class="btn-primary">
-                <i class="fas fa-save mr-2"></i>Enregistrer
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save mr-2"></i>Mettre à jour l'article
               </button>
             </div>
           </form>
@@ -436,124 +414,142 @@
       sidebar.classList.add("-translate-x-64");
     });
 
-
-    
+    // Auto-generate slug from title
+    document.getElementById('title').addEventListener('input', function() {
+      const slug = this.value
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/[\s_]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+      document.getElementById('slug').value = slug;
+    });
   </script>
+
   <script type="module">
-  import { Editor } from 'https://esm.sh/@tiptap/core@2.11.0';
-  import StarterKit from 'https://esm.sh/@tiptap/starter-kit@2.11.0';
-  import Placeholder from 'https://esm.sh/@tiptap/extension-placeholder@2.11.0';
-  import Paragraph from 'https://esm.sh/@tiptap/extension-paragraph@2.11.0';
-  import Bold from 'https://esm.sh/@tiptap/extension-bold@2.11.0';
-  import Underline from 'https://esm.sh/@tiptap/extension-underline@2.11.0';
-  import Link from 'https://esm.sh/@tiptap/extension-link@2.11.0';
-  import BulletList from 'https://esm.sh/@tiptap/extension-bullet-list@2.11.0';
-  import OrderedList from 'https://esm.sh/@tiptap/extension-ordered-list@2.11.0';
-  import ListItem from 'https://esm.sh/@tiptap/extension-list-item@2.11.0';
-  import Blockquote from 'https://esm.sh/@tiptap/extension-blockquote@2.11.0';
+    import { Editor } from 'https://esm.sh/@tiptap/core@2.11.0';
+    import StarterKit from 'https://esm.sh/@tiptap/starter-kit@2.11.0';
+    import Placeholder from 'https://esm.sh/@tiptap/extension-placeholder@2.11.0';
+    import Paragraph from 'https://esm.sh/@tiptap/extension-paragraph@2.11.0';
+    import Bold from 'https://esm.sh/@tiptap/extension-bold@2.11.0';
+    import Underline from 'https://esm.sh/@tiptap/extension-underline@2.11.0';
+    import Link from 'https://esm.sh/@tiptap/extension-link@2.11.0';
+    import BulletList from 'https://esm.sh/@tiptap/extension-bullet-list@2.11.0';
+    import OrderedList from 'https://esm.sh/@tiptap/extension-ordered-list@2.11.0';
+    import ListItem from 'https://esm.sh/@tiptap/extension-list-item@2.11.0';
+    import Blockquote from 'https://esm.sh/@tiptap/extension-blockquote@2.11.0';
 
-  const editor = new Editor({
-    element: document.querySelector('#hs-editor-tiptap [data-hs-editor-field]'),
-    editorProps: {
-      attributes: {
-        class: 'relative min-h-40 p-3'
+    const editor = new Editor({
+      element: document.querySelector('#hs-editor-field'),
+      content: document.querySelector('input[name="content"]').value,
+      editorProps: {
+        attributes: {
+          class: 'relative min-h-40 p-3 prose prose-sm max-w-none focus:outline-none'
+        }
+      },
+      extensions: [
+        StarterKit.configure({
+          history: false
+        }),
+        Placeholder.configure({
+          placeholder: 'Saisissez le contenu de l\'article ici...',
+          emptyNodeClass: 'before:text-gray-300'
+        }),
+        Paragraph.configure({
+          HTMLAttributes: {
+            class: 'text-inherit text-black leading-6 mb-3'
+          }
+        }),
+        Bold.configure({
+          HTMLAttributes: {
+            class: 'font-bold'
+          }
+        }),
+        Underline,
+        Link.configure({
+          HTMLAttributes: {
+            class: 'inline-flex items-center gap-x-1 text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium'
+          }
+        }),
+        BulletList.configure({
+          HTMLAttributes: {
+            class: 'list-disc list-inside text-gray-800 ml-4'
+          }
+        }),
+        OrderedList.configure({
+          HTMLAttributes: {
+            class: 'list-decimal list-inside text-gray-800 ml-4'
+          }
+        }),
+        ListItem.configure({
+          HTMLAttributes: {
+            class: 'marker:text-sm'
+          }
+        }),
+        Blockquote.configure({
+          HTMLAttributes: {
+            class: 'relative border-s-4 ps-4 sm:ps-6 italic text-gray-600'
+          }
+        })
+      ],
+      onUpdate: ({ editor }) => {
+        document.querySelector('input[name="content"]').value = editor.getHTML();
       }
-    },
-    extensions: [
-      StarterKit.configure({
-        history: false
-      }),
-      Placeholder.configure({
-        placeholder: 'Add a message, if you\'d like.',
-        emptyNodeClass: 'before:text-gray-300'
-      }),
-      Paragraph.configure({
-        HTMLAttributes: {
-          class: 'text-inherit text-black-400 leading-6 mb-3'
+    });
+
+    const actions = [
+      {
+        id: '[data-hs-editor-bold]',
+        fn: () => editor.chain().focus().toggleBold().run()
+      },
+      {
+        id: '[data-hs-editor-italic]',
+        fn: () => editor.chain().focus().toggleItalic().run()
+      },
+      {
+        id: '[data-hs-editor-underline]',
+        fn: () => editor.chain().focus().toggleUnderline().run()
+      },
+      {
+        id: '[data-hs-editor-strike]',
+        fn: () => editor.chain().focus().toggleStrike().run()
+      },
+      {
+        id: '[data-hs-editor-link]',
+        fn: () => {
+          const url = window.prompt('Entrez l\'URL:');
+          if (url) {
+            editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+          }
         }
-      }),
-      Bold.configure({
-        HTMLAttributes: {
-          class: 'font-bold'
-        }
-      }),
-      Underline,
-      Link.configure({
-        HTMLAttributes: {
-          class: 'inline-flex items-center gap-x-1 text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium dark:text-white'
-        }
-      }),
-      BulletList.configure({
-        HTMLAttributes: {
-          class: 'list-disc list-inside text-gray-800 dark:text-white'
-        }
-      }),
-      OrderedList.configure({
-        HTMLAttributes: {
-          class: 'list-decimal list-inside text-gray-800 dark:text-white'
-        }
-      }),
-      ListItem.configure({
-        HTMLAttributes: {
-          class: 'marker:text-sm'
-        }
-      }),
-      Blockquote.configure({
-        HTMLAttributes: {
-          class: 'relative border-s-4 ps-4 sm:ps-6 dark:border-neutral-700 sm:[&>p]:text-lg'
-        }
-      })
-    ]
-  });
-  const actions = [
-    {
-      id: '#hs-editor-tiptap [data-hs-editor-bold]',
-      fn: () => editor.chain().focus().toggleBold().run()
-    },
-    {
-      id: '#hs-editor-tiptap [data-hs-editor-italic]',
-      fn: () => editor.chain().focus().toggleItalic().run()
-    },
-    {
-      id: '#hs-editor-tiptap [data-hs-editor-underline]',
-      fn: () => editor.chain().focus().toggleUnderline().run()
-    },
-    {
-      id: '#hs-editor-tiptap [data-hs-editor-strike]',
-      fn: () => editor.chain().focus().toggleStrike().run()
-    },
-    {
-      id: '#hs-editor-tiptap [data-hs-editor-link]',
-      fn: () => {
-        const url = window.prompt('URL');
-        editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+      },
+      {
+        id: '[data-hs-editor-ol]',
+        fn: () => editor.chain().focus().toggleOrderedList().run()
+      },
+      {
+        id: '[data-hs-editor-ul]',
+        fn: () => editor.chain().focus().toggleBulletList().run()
+      },
+      {
+        id: '[data-hs-editor-blockquote]',
+        fn: () => editor.chain().focus().toggleBlockquote().run()
+      },
+      {
+        id: '[data-hs-editor-code]',
+        fn: () => editor.chain().focus().toggleCode().run()
       }
-    },
-    {
-      id: '#hs-editor-tiptap [data-hs-editor-ol]',
-      fn: () => editor.chain().focus().toggleOrderedList().run()
-    },
-    {
-      id: '#hs-editor-tiptap [data-hs-editor-ul]',
-      fn: () => editor.chain().focus().toggleBulletList().run()
-    },
-    {
-      id: '#hs-editor-tiptap [data-hs-editor-blockquote]',
-      fn: () => editor.chain().focus().toggleBlockquote().run()
-    },
-    {
-      id: '#hs-editor-tiptap [data-hs-editor-code]',
-      fn: () => editor.chain().focus().toggleCode().run()
-    }
-  ];
+    ];
 
-  actions.forEach(({ id, fn }) => {
-    const action = document.querySelector(id);
-
-    if (action === null) return;
-
-    action.addEventListener('click', fn);
-  });
-</script>
+    actions.forEach(({ id, fn }) => {
+      const action = document.querySelector(id);
+      if (action) {
+        action.addEventListener('click', (e) => {
+          e.preventDefault();
+          fn();
+        });
+      }
+    });
+  </script>
 </body>
 </html>

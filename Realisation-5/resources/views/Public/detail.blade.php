@@ -37,7 +37,7 @@
                 @endif
 
                 <div class="prose max-w-none text-gray-700 leading-relaxed">
-                    {!! nl2br(e($article->content)) !!}
+                    {!! $article->content !!}
                 </div>
 
                 <!-- COMMENTS SECTION -->
